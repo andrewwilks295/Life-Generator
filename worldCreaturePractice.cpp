@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <time.h>
+#include <string.h>
 using namespace std;
 
 int getRandom() {
@@ -14,12 +15,14 @@ int offspring = 0;
 int foodCount = 5;
 int days = 0;
 int buddy = 0;
+string partner;
 void restart() {
      cout <<"\n";
         offspring = 0;
         foodCount = 5;
         days = 0;
         buddy = 0;
+        //Rest partner some how?
 }
 class Hunger {
     public:
@@ -67,7 +70,7 @@ class World: public Creature {
 
         int life(int x) {
             days++;
-            if (x == 9) {
+            if (x == 9 && !partner.empty()) {
                 cout << name << " has reproduced\n";
                 ::offspring++;
                 return 1;
@@ -89,6 +92,8 @@ class World: public Creature {
                 if (foodCount > 0) {
                 foodCount--;
                 cout << foodCount << " left \n";
+                } else {
+                    cout << foodCount << "left \n";
                 }
                 return 1;
             } else if (x == 5) {
@@ -115,10 +120,20 @@ class World: public Creature {
                     return 1;
                 }
             } else if (x == 2) {
-                cout << "Saw a cool rock\n";
+                if (partner.empty()) {
+                cout << "Found a partner: Name Partner: ";
+                cin >> partner;
+                } else {
+                    cout << "Kiss " << partner << "\n";
+                }
                 return 1;
             } else if (x == 1) {
-                cout << "Found no extra food\n";
+                if (!partner.empty()) {
+                cout << partner <<" has died\n";
+                } else {
+                    cout << "Lonely";
+                }
+                return 1;
             } else if (x == 0) {
                 cout << "Went Stargazing\n";
             }
